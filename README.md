@@ -10,7 +10,7 @@
 
 
 <p align="center">
-  <a href="https://melos.invertase.dev">Documentation</a> &bull; 
+  <a href="https://melos.invertase.dev/~melos-latest">Documentation</a> &bull;
   <a href="https://github.com/invertase/melos/blob/main/LICENSE">License</a>
 </p>
 

@@ -126,7 +126,7 @@ dart pub global activate melos
 
 ### Documentation
 
-Documentation is available at [https://docs.page/invertase/melos](https://docs.page/invertase/melos).
+Documentation is available at [https://melos.invertase.dev/~melos-latest](https://melos.invertase.dev/~melos-latest).
 
 ---
 
