@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:pubspec/pubspec.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 class TestLogger extends StandardLogger {
@@ -95,7 +95,7 @@ Future<Directory> createTemporaryWorkspace({
   configBuilder ??= (path) => MelosWorkspaceConfig.fallback(path: path);
 
   final tempDir = createTempDir(p.join(Directory.current.path, '.dart_tool'));
-  // addTearDown(() => deleteEntry(tempDir));
+  addTearDown(() => deleteEntry(tempDir));
 
   final workspacePath = currentPlatform.isWindows
       ? p.windows.normalize(tempDir).replaceAll(r'\', r'\\')
