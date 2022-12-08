@@ -32,7 +32,7 @@ void main() {
       final pubspecOverrides =
           p.join(packageBDir.path, 'pubspec_overrides.yaml');
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final logger = TestLogger();
       final melos = Melos(config: config, logger: logger);
       await melos.bootstrap();

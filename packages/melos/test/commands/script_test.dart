@@ -24,7 +24,7 @@ void main() {
         ),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final command = ScriptCommand.fromConfig(config);
       expect(command, isNotNull);
       expect(
@@ -50,7 +50,7 @@ void main() {
         ),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final command = ScriptCommand.fromConfig(config, exclude: ['run']);
       expect(command, isNotNull);
       expect([command!.name, ...command.aliases], isNot(contains('run')));
@@ -70,7 +70,7 @@ void main() {
         ),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final command = ScriptCommand.fromConfig(config, exclude: ['clean']);
       expect(command, isNull);
     });

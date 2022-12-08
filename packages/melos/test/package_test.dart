@@ -33,7 +33,7 @@ void main() {
       reset(httpClientMock);
       IOOverrides.global = MockFs();
 
-      final config = await MelosWorkspaceConfig.fromDirectory(
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(
         createMockWorkspaceFs(
           packages: [
             MockPackageFs(

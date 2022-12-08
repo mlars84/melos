@@ -276,21 +276,6 @@ Future<String> getMelosRoot() async {
   return p.normalize('${melosPackageFileUri!.toFilePath()}/../..');
 }
 
-YamlMap? loadYamlFileSync(String path) {
-  if (!fileExists(path)) return null;
-
-  return loadYaml(readTextFile(path)) as YamlMap;
-}
-
-Future<YamlMap?> loadYamlFile(String path) async {
-  if (!fileExists(path)) return null;
-
-  return loadYaml(
-    await readTextFileAsync(path),
-    sourceUrl: Uri.parse(path),
-  ) as YamlMap;
-}
-
 String melosYamlPathForDirectory(String directory) =>
     p.join(directory, 'melos.yaml');
 

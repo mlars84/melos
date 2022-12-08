@@ -78,7 +78,7 @@ void main() {
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final workspace = await MelosWorkspace.fromConfig(
         config,
         logger: logger.toMelosLogger(),
@@ -177,7 +177,7 @@ Generating IntelliJ IDE files...
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final melos = Melos(
         logger: logger,
         config: config,
@@ -275,7 +275,7 @@ Generating IntelliJ IDE files...
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final melos = Melos(
         logger: logger,
         config: config,
@@ -320,7 +320,7 @@ Generating IntelliJ IDE files...
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final melos = Melos(
         logger: logger,
         config: config,
@@ -508,7 +508,7 @@ dependency_overrides:
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final workspace = await MelosWorkspace.fromConfig(
         config,
         logger: logger.toMelosLogger(),
@@ -567,7 +567,7 @@ e-Because a depends on package_that_does_not_exists any which doesn't exist (cou
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final workspace = await MelosWorkspace.fromConfig(
         config,
         logger: logger.toMelosLogger(),
@@ -694,7 +694,7 @@ Future<void> dependencyResolutionTest(
   }
 
   final logger = TestLogger();
-  final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+  final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
   final melos = Melos(
     logger: logger,
     config: config,

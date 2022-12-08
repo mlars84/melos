@@ -23,7 +23,7 @@ void main() {
         ),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final runner = MelosCommandRunner(config);
 
       expect(
@@ -50,7 +50,7 @@ void main() {
         ),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final runner = MelosCommandRunner(config);
 
       final command = runner.commands['run'];

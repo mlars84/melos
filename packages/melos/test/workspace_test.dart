@@ -57,7 +57,7 @@ void main() {
 
       await expectLater(
         () async => MelosWorkspace.fromConfig(
-          await MelosWorkspaceConfig.fromDirectory(workspaceDir),
+          await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir),
           logger: TestLogger().toMelosLogger(),
         ),
         throwsMelosConfigException(
@@ -94,7 +94,7 @@ The packages that caused the problem are:
         );
 
         final aDir = Directory('${mockWorkspaceRootDir.path}/packages/a');
-        final config = await MelosWorkspaceConfig.fromDirectory(aDir);
+        final config = await MelosWorkspaceConfig.fromWorkspaceRoot(aDir);
         final workspace = await MelosWorkspace.fromConfig(
           config,
           logger: TestLogger().toMelosLogger(),
@@ -123,7 +123,7 @@ The packages that caused the problem are:
           ],
         );
 
-        final config = await MelosWorkspaceConfig.fromDirectory(
+        final config = await MelosWorkspaceConfig.fromWorkspaceRoot(
           mockWorkspaceRootDir,
         );
         final workspace = await MelosWorkspace.fromConfig(
@@ -146,7 +146,7 @@ The packages that caused the problem are:
       await link.create(p.join(workspaceDir.path, 'does-not-exist'));
 
       await MelosWorkspace.fromConfig(
-        await MelosWorkspaceConfig.fromDirectory(workspaceDir),
+        await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir),
         logger: TestLogger().toMelosLogger(),
       );
     });
@@ -170,7 +170,7 @@ The packages that caused the problem are:
         );
 
         final workspace = await MelosWorkspace.fromConfig(
-          await MelosWorkspaceConfig.fromDirectory(workspaceDir),
+          await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir),
           logger: TestLogger().toMelosLogger(),
         );
 
@@ -191,7 +191,7 @@ The packages that caused the problem are:
         await createProject(workspaceDir, const PubSpec(name: 'a'));
 
         final workspace = await MelosWorkspace.fromConfig(
-          await MelosWorkspaceConfig.fromDirectory(workspaceDir),
+          await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir),
           logger: TestLogger().toMelosLogger(),
         );
 
@@ -237,9 +237,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'b'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -264,9 +263,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'b'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -298,9 +296,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'c'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -334,9 +331,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'd'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -367,9 +363,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'b'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -394,9 +389,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'b'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -426,9 +420,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'c'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(
@@ -462,9 +455,8 @@ The packages that caused the problem are:
                 MockPackageFs(name: 'd'),
               ],
             );
-            final config = await MelosWorkspaceConfig.fromDirectory(
-              workspaceDir,
-            );
+            final config =
+                await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
             final workspace = await MelosWorkspace.fromConfig(
               config,
               filter: PackageFilter(

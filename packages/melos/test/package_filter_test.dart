@@ -22,7 +22,7 @@ void main() {
         const PubSpec(name: 'b'),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final workspace = await MelosWorkspace.fromConfig(
         config,
         logger: TestLogger().toMelosLogger(),
@@ -58,7 +58,7 @@ void main() {
         const PubSpec(name: 'b'),
       );
 
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final workspace = await MelosWorkspace.fromConfig(
         config,
         logger: TestLogger().toMelosLogger(),

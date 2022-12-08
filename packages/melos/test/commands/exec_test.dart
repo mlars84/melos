@@ -31,7 +31,7 @@ void main() {
       );
 
       final logger = TestLogger();
-      final config = await MelosWorkspaceConfig.fromDirectory(workspaceDir);
+      final config = await MelosWorkspaceConfig.fromWorkspaceRoot(workspaceDir);
       final melos = Melos(
         logger: logger,
         config: config,
