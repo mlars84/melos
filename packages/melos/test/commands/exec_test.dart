@@ -11,7 +11,7 @@ import '../utils.dart';
 void main() {
   group('exec', () {
     test('supports package filter', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final aDir = await createProject(
         workspaceDir,

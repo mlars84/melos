@@ -9,7 +9,7 @@ import '../utils.dart';
 void main() {
   group('Script', () {
     test('fromConfig creates aliases for all scripts', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('fromConfig excludes given commands', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',
@@ -57,7 +57,7 @@ void main() {
     });
 
     test('fromConfig does not create an empty command', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',

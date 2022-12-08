@@ -9,7 +9,7 @@ import 'utils.dart';
 void main() {
   group('PackageFilter', () {
     test('dirExists', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final aDir = await createProject(
         workspaceDir,
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('fileExists', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final aDir = await createProject(
         workspaceDir,

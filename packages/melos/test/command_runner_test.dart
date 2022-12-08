@@ -9,7 +9,7 @@ import 'utils.dart';
 void main() {
   group('CommandRunner', () {
     test('adds hidden script commands', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',
@@ -37,7 +37,7 @@ void main() {
     });
 
     test('excludes conflicting script commands', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',

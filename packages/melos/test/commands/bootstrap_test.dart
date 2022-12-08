@@ -50,7 +50,7 @@ void main() {
         path: '',
       );
 
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final aPath = p.join(workspaceDir.path, 'packages', 'a');
 
@@ -152,7 +152,7 @@ Generating IntelliJ IDE files...
     });
 
     test('resolves workspace packages with path dependency', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final aDir = await createProject(
         workspaceDir,
@@ -254,7 +254,7 @@ Generating IntelliJ IDE files...
     );
 
     test('respects user dependency_overrides', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
       );
 
@@ -293,7 +293,7 @@ Generating IntelliJ IDE files...
     });
 
     test('bootstrap flutter example packages', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
       );
 
@@ -493,7 +493,7 @@ dependency_overrides:
     });
 
     test('handles errors in pub get', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       await createProject(
         workspaceDir,
@@ -550,7 +550,7 @@ e-Because a depends on package_that_does_not_exists any which doesn't exist (cou
     });
 
     test('can run pub get offline', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig.fromYaml(
           createYamlMap(
             {
@@ -635,7 +635,7 @@ Future<void> runMelosBootstrap(Melos melos, TestLogger logger) async {
 Future<void> dependencyResolutionTest(
   Map<String, List<String>> packages,
 ) async {
-  final workspaceDir = createTemporaryWorkspaceDirectory(
+  final workspaceDir = await createTemporaryWorkspace(
     configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
   );
 

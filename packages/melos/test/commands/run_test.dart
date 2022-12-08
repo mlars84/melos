@@ -16,7 +16,8 @@ void main() {
     test(
       'supports passing package filter options to "melos exec" scripts',
       () async {
-        final workspaceDir = createTemporaryWorkspaceDirectory(
+        final workspaceDir = await createTemporaryWorkspace(
+          runPubGet: true,
           configBuilder: (path) => MelosWorkspaceConfig(
             path: path,
             name: 'test_package',
@@ -88,7 +89,7 @@ melos run test_script
     );
 
     test('supports passing additional arguments to run scripts', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',
@@ -140,7 +141,8 @@ melos run test_script
     });
 
     test('supports running "melos exec" script with "exec" options', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory(
+      final workspaceDir = await createTemporaryWorkspace(
+        runPubGet: true,
         configBuilder: (path) => MelosWorkspaceConfig(
           path: path,
           name: 'test_package',

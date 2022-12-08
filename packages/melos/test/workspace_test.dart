@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
 import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:melos/melos.dart';
 import 'package:melos/src/common/glob.dart';
@@ -34,7 +36,7 @@ import 'utils.dart';
 void main() {
   group('Workspace', () {
     test('throws if multiple packages have the same name', () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       await createProject(
         workspaceDir,
@@ -83,32 +85,32 @@ The packages that caused the problem are:
       );
     });
 
-    test(
-      'can be accessed from anywhere within a workspace',
-      withMockFs(() async {
-        final mockWorkspaceRootDir = createMockWorkspaceFs(
-          packages: [
-            MockPackageFs(name: 'a'),
-            MockPackageFs(name: 'b'),
-          ],
-        );
+    test('can be accessed from anywhere within a workspace', () async {
+      final workspaceDir = await createTemporaryWorkspace(
+        runPubGet: true,
+        configBuilder: (path) => MelosWorkspaceConfig.fromYaml(
+          path: path,
+          const {
+            'name': 'test',
+            'packages': ['packages/*'],
+          },
+        ),
+      );
+      final projectDir =
+          await createProject(workspaceDir, const PubSpec(name: 'a'));
 
-        final aDir = Directory('${mockWorkspaceRootDir.path}/packages/a');
-        final config = await MelosWorkspaceConfig.fromWorkspaceRoot(aDir);
-        final workspace = await MelosWorkspace.fromConfig(
-          config,
-          logger: TestLogger().toMelosLogger(),
-        );
+      final result = await Process.run(
+        'melos',
+        ['list'],
+        runInShell: io.Platform.isWindows,
+        stdoutEncoding: utf8,
+        stderrEncoding: utf8,
+        workingDirectory: projectDir.path,
+      );
 
-        expect(
-          workspace.filteredPackages.values,
-          unorderedEquals(<Object>[
-            packageNamed('a'),
-            packageNamed('b'),
-          ]),
-        );
-      }),
-    );
+      expect(result.exitCode, 0);
+      expect(result.stdout, 'a\n');
+    });
 
     test(
       'does not include projects inside packages/whatever/.dart_tool when no melos.yaml is specified',
@@ -140,7 +142,7 @@ The packages that caused the problem are:
 
     test('load workspace config when workspace contains broken symlink',
         () async {
-      final workspaceDir = createTemporaryWorkspaceDirectory();
+      final workspaceDir = await createTemporaryWorkspace();
 
       final link = Link(p.join(workspaceDir.path, 'link'));
       await link.create(p.join(workspaceDir.path, 'does-not-exist'));
@@ -153,7 +155,7 @@ The packages that caused the problem are:
 
     group('locate packages', () {
       test('in workspace root', () async {
-        final workspaceDir = createTemporaryWorkspaceDirectory(
+        final workspaceDir = await createTemporaryWorkspace(
           configBuilder: (path) => MelosWorkspaceConfig.fromYaml(
             const {
               'name': 'test',
@@ -178,7 +180,7 @@ The packages that caused the problem are:
       });
 
       test('in child directory', () async {
-        final workspaceDir = createTemporaryWorkspaceDirectory(
+        final workspaceDir = await createTemporaryWorkspace(
           configBuilder: (path) => MelosWorkspaceConfig.fromYaml(
             const {
               'name': 'test',
