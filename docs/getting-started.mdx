@@ -12,21 +12,28 @@ it.
 
 Installe Melos as a
 [global package](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
-via [pub.dev](https://pub.dev/):
+via [pub.dev](https://pub.dev/) so it can be used from anywhere on your system:
 
 ```bash
 dart pub global activate melos
 ```
 
-### Project setup
+## Setup a workspace
 
-Different projects might use different versions of Melos. To ensure everyone
-working on the project (as well as CI) is using the same version of Melos, a
-dependency on Melos has to be added to the `pubspec.yaml` file at the root of
-the repository. The globally installed version of Melos will switch to the
-version specified in the `pubspec.yaml` file, if both versions are not the same.
+Melos is designed to work with a workspace. A workspace is a directory which
+contains all the packages that are going to be developed together. Its root
+directory must contain a `melos.yaml` file.
 
-If you don't have a `pubspec.yaml` file at the prository root yet, create one
+### Install Melos in the workspace
+
+Different Melos workspaces might use different versions of Melos. To ensure
+everyone working in the workspace (as well as CI jobs) is using the same version
+of Melos, a dependency on the `melos` package has to be added to the
+`pubspec.yaml` file at the workspace root directory. The globally installed
+version of Melos will switch to the version specified in the `pubspec.yaml`
+file, if both versions are not the same.
+
+If you don't have a `pubspec.yaml` file at the workspace root yet, create one
 now:
 
 ```yaml
@@ -45,6 +52,8 @@ Add Melos as a development dependency by running the following command:
 dart pub add melos --dev
 ```
 
+### Configure the workspace
+
 Next create a `melos.yaml` file at the repository root. Within the `melos.yaml`
 file, add the `name` and `packages` fields:
 
@@ -59,8 +68,9 @@ The `packages` list should contain paths to the individual packages within your
 project. Each path can be defined using the
 [glob](https://docs.python.org/3/library/glob.html) pattern expansion format.
 
-Melos generates `pubspec_overrides.yaml` files to link local packages for development. Typically these files
-should be ignored by git. To ignore these files, add the following to your `.gitignore` file:
+Melos generates `pubspec_overrides.yaml` files to link local packages for
+development. Typically these files should be ignored by git. To ignore these
+files, add the following to your `.gitignore` file:
 
 ```
 pubspec_overrides.yaml
@@ -113,7 +123,8 @@ scripts:
 
 Then execute the command by running `melos run analyze`.
 
-If you're looking for some inspiration as to what scripts can help with, check out the
+If you're looking for some inspiration as to what scripts can help with, check
+out the
 [FlutterFire repository](https://github.com/firebase/flutterfire/blob/master/melos.yaml).
 
 If you are using VS Code, there is an [extension](/ide-support#vs-code)
