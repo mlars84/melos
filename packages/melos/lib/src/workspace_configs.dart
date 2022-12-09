@@ -17,17 +17,16 @@
 
 import 'dart:io';
 
+import 'package:ansi_styles/ansi_styles.dart';
 import 'package:collection/collection.dart';
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
-import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
 import '../melos.dart';
 import 'common/git_repository.dart';
 import 'common/glob.dart';
 import 'common/io.dart';
-import 'common/platform.dart';
 import 'common/utils.dart';
 import 'common/validation.dart';
 import 'scripts.dart';
@@ -728,19 +727,6 @@ class MelosWorkspaceConfig {
     );
   }
 
-  // TODO: remove
-  MelosWorkspaceConfig.fallback({required String path})
-      : this(
-          name: 'Melos',
-          packages: [
-            createGlob('packages/**', currentDirectoryPath: path),
-          ],
-          path: currentPlatform.isWindows
-              ? p.windows.normalize(path).replaceAll(r'\', r'\\')
-              : path,
-          commands: CommandConfigs.empty,
-        );
-
   MelosWorkspaceConfig.empty()
       : this(
           name: 'Melos',
@@ -749,19 +735,23 @@ class MelosWorkspaceConfig {
           commands: CommandConfigs.empty,
         );
 
-  /// Creates a new configuration from a [Directory] pointing to the workspace
-  /// root.
+  /// Loads the [MelosWorkspaceConfig] for the workspace at [workspaceRoot].
   static Future<MelosWorkspaceConfig> fromWorkspaceRoot(
     Directory workspaceRoot,
   ) async {
     final melosYamlFile = File(melosYamlPathForDirectory(workspaceRoot.path));
 
     if (!melosYamlFile.existsSync()) {
-      throw MelosConfigException(
-        '''
-Your current directory does not appear to be within a valid Melos workspace.
-You must have a "melos.yaml" file in the root of your workspace.
-''',
+      throw UnresolvedWorkspace(
+        multiLine([
+          'Found no melos.yaml file in "${workspaceRoot.path}".',
+          '',
+          'You must have a ${AnsiStyles.bold('melos.yaml')} file in the root '
+              'of your workspace.',
+          '',
+          'For more information, see: '
+              'https://melos.invertase.dev/configuration/overview',
+        ]),
       );
     }
 
@@ -807,6 +797,47 @@ You must have a "melos.yaml" file in the root of your workspace.
       melosYamlContents,
       path: workspaceRoot.path,
     )..validatePhysicalWorkspace();
+  }
+
+  /// Handles the case where a workspace could not be found in the [current]
+  /// or a parent directory by throwing an error with a helpful message.
+  static Future<Never> handleWorkspaceNotFound(Directory current) async {
+    final legacyWorkspace = await _findMelosYaml(current);
+    if (legacyWorkspace != null) {
+      throw UnresolvedWorkspace(
+        multiLine([
+          'Found a melos.yaml file in "${legacyWorkspace.path}" but no local '
+              'installation of Melos.',
+          '',
+          'From version 3.0.0, the ${AnsiStyles.bold('melos')} package must be '
+              'installed in a ${AnsiStyles.bold('pubspec.yaml')} file next to '
+              'the melos.yaml file.',
+          '',
+          'For more information, see: '
+              'https://melos.invertase.dev/guides/migrations#200-to-300'
+        ]),
+      );
+    }
+
+    throw UnresolvedWorkspace(
+      multiLine([
+        'Your current directory does not appear to be within a Melos '
+            'workspace.',
+        '',
+        'For setting up a workspace, see: '
+            'https://melos.invertase.dev/getting-started#setup',
+      ]),
+    );
+  }
+
+  static Future<Directory?> _findMelosYaml(Directory start) async {
+    final melosYamlFile = File(melosYamlPathForDirectory(start.path));
+    if (melosYamlFile.existsSync()) {
+      return start;
+    }
+
+    final parent = start.parent;
+    return parent.path == start.path ? null : _findMelosYaml(parent);
   }
 
   /// The absolute path to the workspace folder.
@@ -936,4 +967,14 @@ class _GlobEquality implements Equality<Glob> {
 
   @override
   bool isValidKey(Object? o) => true;
+}
+
+/// An exception thrown when a Melos workspace could not be resolved.
+class UnresolvedWorkspace implements MelosException {
+  UnresolvedWorkspace(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
 }

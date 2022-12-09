@@ -36,7 +36,6 @@ import 'command_runner/version.dart';
 import 'common/exception.dart';
 import 'common/utils.dart';
 import 'common/utils.dart' as utils;
-import 'common/validation.dart';
 import 'logging.dart';
 import 'workspace_configs.dart';
 
@@ -162,10 +161,7 @@ Future<MelosWorkspaceConfig> _resolveConfig(
     return MelosWorkspaceConfig.empty();
   }
   if (workspaceRoot == null) {
-    throw MelosConfigException(
-      'Could not resolve workspace root from working directory '
-      '"${Directory.current.path}".',
-    );
+    return MelosWorkspaceConfig.handleWorkspaceNotFound(Directory.current);
   }
   return MelosWorkspaceConfig.fromWorkspaceRoot(workspaceRoot);
 }

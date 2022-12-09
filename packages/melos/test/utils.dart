@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart';
 import 'package:http/http.dart' as http;
 import 'package:melos/melos.dart';
+import 'package:melos/src/common/glob.dart';
 import 'package:melos/src/common/io.dart';
 import 'package:melos/src/common/platform.dart';
 import 'package:melos/src/common/utils.dart';
@@ -88,12 +89,23 @@ Future<void> runPubGet(String workspacePath) async {
 
 const _runPubGet = runPubGet;
 
+typedef TestWorkspaceConfigBuilder = MelosWorkspaceConfig Function(String path);
+
+MelosWorkspaceConfig _defaultWorkspaceConfigBuilder(String path) =>
+    MelosWorkspaceConfig(
+      name: 'Melos',
+      packages: [
+        createGlob('packages/**', currentDirectoryPath: path),
+      ],
+      path: currentPlatform.isWindows
+          ? p.windows.normalize(path).replaceAll(r'\', r'\\')
+          : path,
+    );
+
 Future<Directory> createTemporaryWorkspace({
-  MelosWorkspaceConfig Function(String path)? configBuilder,
+  TestWorkspaceConfigBuilder configBuilder = _defaultWorkspaceConfigBuilder,
   bool runPubGet = false,
 }) async {
-  configBuilder ??= (path) => MelosWorkspaceConfig.fallback(path: path);
-
   final tempDir = createTempDir(p.join(Directory.current.path, '.dart_tool'));
   addTearDown(() => deleteEntry(tempDir));
 

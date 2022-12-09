@@ -66,6 +66,18 @@ extension Let<T> on T? {
 
 String describeEnum(Object value) => value.toString().split('.').last;
 
+/// Utility function to write inline multi-line strings with indentation and
+/// without trailing a new line.
+///
+/// ```dart
+/// print(multiLine([
+///  'The quick brown fox jumps over the lazy dog.',
+///  '', // Empty line
+///  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
+/// ]));
+/// ```
+String multiLine(List<String> lines) => lines.join('\n');
+
 // MELOS_PACKAGES environment variable is a comma delimited list of
 // package names - used instead of filters if it is present.
 // This can be user defined or can come from package selection in `melos run`.

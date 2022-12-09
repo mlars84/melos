@@ -254,9 +254,7 @@ Generating IntelliJ IDE files...
     );
 
     test('respects user dependency_overrides', () async {
-      final workspaceDir = await createTemporaryWorkspace(
-        configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
-      );
+      final workspaceDir = await createTemporaryWorkspace();
 
       final pkgA = await createProject(
         workspaceDir,
@@ -293,9 +291,7 @@ Generating IntelliJ IDE files...
     });
 
     test('bootstrap flutter example packages', () async {
-      final workspaceDir = await createTemporaryWorkspace(
-        configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
-      );
+      final workspaceDir = await createTemporaryWorkspace();
 
       await createProject(
         workspaceDir,
@@ -635,9 +631,7 @@ Future<void> runMelosBootstrap(Melos melos, TestLogger logger) async {
 Future<void> dependencyResolutionTest(
   Map<String, List<String>> packages,
 ) async {
-  final workspaceDir = await createTemporaryWorkspace(
-    configBuilder: (path) => MelosWorkspaceConfig.fallback(path: path),
-  );
+  final workspaceDir = await createTemporaryWorkspace();
 
   Future<MapEntry<String, io.Directory>> createPackage(
     MapEntry<String, List<String>> entry,

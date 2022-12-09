@@ -125,9 +125,8 @@ The packages that caused the problem are:
           ],
         );
 
-        final config = await MelosWorkspaceConfig.fromWorkspaceRoot(
-          mockWorkspaceRootDir,
-        );
+        final config =
+            await MelosWorkspaceConfig.fromWorkspaceRoot(mockWorkspaceRootDir);
         final workspace = await MelosWorkspace.fromConfig(
           config,
           logger: TestLogger().toMelosLogger(),
